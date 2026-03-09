@@ -41,4 +41,13 @@ export class ProductController {
   delete(@Param('id', ParseIntPipe) id: number){
     return this.productService.delete(id)
   }
+
+  @Get("/price/greater/:value")
+  findByPriceGreaterThan(@Param("value") value: number) {
+  return this.productService.findByPriceGreaterThan(value);
+  }
+  @Get("/price/less/:value")
+  findByPriceLessThan(@Param("value") value: number) {
+  return this.productService.findByPriceLessThan(value);
+  }
 }
