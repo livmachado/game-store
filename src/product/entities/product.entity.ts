@@ -1,9 +1,9 @@
 import { Transform, TransformFnParams } from 'class-transformer';
 import { IsEnum, IsNotEmpty, IsNumber, IsPositive, IsUrl, Length } from "class-validator";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { NumericTransformer } from "../../util/numerictransformer";
 import { Platform } from '../enums/platform.enum';
-import { Genre } from '../enums/genre.enum';
+import { Category } from '../../category/entities/category.entity';
 
 @Entity({ name: 'tb_products'})
 export class Product{
@@ -32,10 +32,6 @@ export class Product{
     @IsEnum(Platform)
     @Column({ type: 'enum',enum: Platform,nullable: false })
     platform: Platform;
-    
-    @IsEnum(Genre, { message: 'O Gênero do jogo é obrigatório' })
-    @Column({ type: 'enum', enum: Genre, nullable: false })
-    genre: Genre;
 
     @IsNumber()
     @IsNotEmpty()
@@ -45,4 +41,9 @@ export class Product{
     @IsUrl({}, { message: 'A imagem deve ser uma URL válida' })
     @Column({ nullable: true })
     imageUrl: string
+
+    @ManyToOne( () => Category, (category) => category.product, {
+        onDelete: "CASCADE"
+    })
+    category: Category;
 }
