@@ -38,8 +38,7 @@ export class Product{
     @Column({ nullable: false })
     stock: number
     
-    @IsUrl({}, { message: 'A imagem deve ser uma URL válida' })
-    @Column({ nullable: true })
+    @Column({ length: 500 })
     imageUrl: string
 
     @ManyToOne( () => Category, (category) => category.product, {
